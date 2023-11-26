@@ -1,0 +1,11 @@
+[project]
+name = "Synergy"
+libraries = ["lib/"]
+
+[task]
+
+[task.main]
+source = "src/"
+output = ["~/Servers/Minecraft/1.20.1/Hyacinth/modules/Synergy.jar"]
+input = ["mod.yml"]
+arguments = "-parameters"
