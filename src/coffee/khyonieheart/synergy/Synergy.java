@@ -15,7 +15,7 @@ import coffee.khyonieheart.hyacinth.util.JsonUtils;
 public class Synergy implements HyacinthModule
 {
 	private static ProfileManager profileManager = new ProfileManager();
-	private static List<String> bulitin = new ArrayList<>();
+	private static List<String> bulletin = new ArrayList<>();
 	private static Synergy instance;
 
 	@Override
@@ -26,11 +26,11 @@ public class Synergy implements HyacinthModule
 		Folders.ensureFolder("SynergyData");
 		Folders.ensureFolders("SynergyData", "profiles", "towns");
 
-		File bulitinFile = new File("SynergyData/bulitin.json");	
-		if (!bulitinFile.exists())
+		File bulletinFile = new File("SynergyData/bulletin.json");	
+		if (!bulletinFile.exists())
 		{
 			try {
-				bulitinFile.createNewFile();
+				bulletinFile.createNewFile();
 				return;
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -38,7 +38,7 @@ public class Synergy implements HyacinthModule
 			}
 		}
 		try {
-			bulitin = JsonUtils.fromJson("SynergyData/bulitin.json", TypeToken.getParameterized(ArrayList.class, String.class).getType());
+			bulletin = JsonUtils.fromJson("SynergyData/bulletin.json", TypeToken.getParameterized(ArrayList.class, String.class).getType());
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -47,12 +47,12 @@ public class Synergy implements HyacinthModule
 	@Override
 	public void onDisable()
 	{
-		JsonUtils.toFile("SynergyData/bulitin.json", bulitin);
+		JsonUtils.toFile("SynergyData/bulletin.json", bulletin);
 	}
 
-	public static List<String> getBulitin()
+	public static List<String> getBulletin()
 	{
-		return bulitin;
+		return bulletin;
 	}
 
 	public static ProfileManager getProfileManager()

@@ -32,10 +32,10 @@ public class PlayerProfile
 	private int timesJoined = 0;
 	@Required
 	@Expose
-	private boolean mutedServerBulitin = false;
+	private boolean mutedServerBulletin = false;
 	@Required
 	@Expose
-	private boolean mutedTownBulitin = false;
+	private boolean mutedTownBulletin = false;
 	@Required
 	@Expose
 	private String chatChannel = "global";
@@ -102,15 +102,15 @@ public class PlayerProfile
 		this.nickname = null;
 	}
 
-	public boolean hasMutedServerBulitin()
+	public boolean hasMutedServerBulletin()
 	{
-		return this.mutedServerBulitin;
+		return this.mutedServerBulletin;
 	}
 
-	public void setMuteServerBulitin(
+	public void setMuteServerBulletin(
 		boolean state
 	) {
-		this.mutedServerBulitin = state;
+		this.mutedServerBulletin = state;
 	}
 
 	public String getChatChannel()

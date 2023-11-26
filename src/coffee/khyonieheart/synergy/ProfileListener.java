@@ -143,13 +143,13 @@ public class ProfileListener implements Listener
 			Bukkit.getServer().dispatchCommand(event.getPlayer(), "synergy guide");
 		}
 
-		Logger.debug("Has muted bulitin? " + profile.hasMutedServerBulitin());
-		Logger.debug("Is bulitin empty? " + Synergy.getBulitin().isEmpty());
-		if (!profile.hasMutedServerBulitin() && !Synergy.getBulitin().isEmpty())
+		Logger.debug("Has muted bulletin? " + profile.hasMutedServerBulletin());
+		Logger.debug("Is bulletin empty? " + Synergy.getBulletin().isEmpty());
+		if (!profile.hasMutedServerBulletin() && !Synergy.getBulletin().isEmpty())
 		{
-			event.getPlayer().spigot().sendMessage(Gradient.createComponents(new GradientGroup("-----------------【 ", "#FFFFFF", "#55FF99"), new GradientGroup("Server Bulitin", "#FFAA00", "#FFAA00"), new GradientGroup(" 】-----------------", "#55FF99", "#FFFFFF")));
+			event.getPlayer().spigot().sendMessage(Gradient.createComponents(new GradientGroup("-----------------【 ", "#FFFFFF", "#55FF99"), new GradientGroup("Server Bulletin", "#FFAA00", "#FFAA00"), new GradientGroup(" 】-----------------", "#55FF99", "#FFFFFF")));
 			Message.send(event.getPlayer(), "§r");
-			for (String s : Synergy.getBulitin())
+			for (String s : Synergy.getBulletin())
 			{
 				event.getPlayer().spigot().sendMessage(new Gradient("#55FF55", "#00FFFF").createComponents(s));
 			}

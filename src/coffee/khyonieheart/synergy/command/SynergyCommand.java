@@ -233,90 +233,90 @@ public class SynergyCommand extends TidalCommand
 		Message.send(sender, "§aOperation complete.");
 	}
 
-	// Bulitin commands
+	// Bulletin commands
 	//-------------------------------------------------------------------------------- 
 	
 	@Root
-	public void bulitin(
+	public void bulletin(
 		Player player
 	) {
-		player.spigot().sendMessage(Gradient.createComponents(new GradientGroup("----------【 ", "#FFFFFF", "#55FF99"), new GradientGroup("Server Bulitin", "#D2AFFF", "#D2AFFF"), new GradientGroup(" 】----------", "#55FF99", "#FFFFFF")));
-		for (String s : Synergy.getBulitin())
+		player.spigot().sendMessage(Gradient.createComponents(new GradientGroup("----------【 ", "#FFFFFF", "#55FF99"), new GradientGroup("Server Bulletin", "#D2AFFF", "#D2AFFF"), new GradientGroup(" 】----------", "#55FF99", "#FFFFFF")));
+		for (String s : Synergy.getBulletin())
 		{
 			player.spigot().sendMessage(new Gradient("#005555", "#00FFFF").createComponents(s));
 		}
 		player.spigot().sendMessage(Gradient.createComponents(new GradientGroup("--------------------", "#FFFFFF", "#55FF99"), new GradientGroup("--------------------", "#55FF99", "#FFFFFF")));
 		
-		// TODO Town bulitin
+		// TODO Town bulletin
 	}
 
-	@Root("bulitin")
-	public void bulitinMute(
+	@Root("bulletin")
+	public void bulletin(
 		Player player,
 		@Static String server,
 		@Static String mute
 	) {
 		PlayerProfile profile = Synergy.getProfileManager().getProfile(player);
 
-		if (profile.hasMutedServerBulitin())
+		if (profile.hasMutedServerBulletin())
 		{
-			player.spigot().sendMessage(Gradient.createComponents(new GradientGroup("[Synergy] ", "#005555", "#00FFFF"), new GradientGroup("You have unmuted the server bulitin.", "#FFAA00", "#FFFFFF")));
-			profile.setMuteServerBulitin(false);
+			player.spigot().sendMessage(Gradient.createComponents(new GradientGroup("[Synergy] ", "#005555", "#00FFFF"), new GradientGroup("You have unmuted the server bulletin.", "#FFAA00", "#FFFFFF")));
+			profile.setMuteServerBulletin(false);
 			return;
 		}
 
-		player.spigot().sendMessage(Gradient.createComponents(new GradientGroup("[Synergy] ", "#005555", "#00FFFF"), new GradientGroup("You have muted the server bulitin.", "#FFAA00", "#FFFFFF")));
-		profile.setMuteServerBulitin(true);
+		player.spigot().sendMessage(Gradient.createComponents(new GradientGroup("[Synergy] ", "#005555", "#00FFFF"), new GradientGroup("You have muted the server bulletin.", "#FFAA00", "#FFFFFF")));
+		profile.setMuteServerBulletin(true);
 	}
 
-	@Root("bulitin")
-	public void bulitinAdd(
+	@Root("bulletin")
+	public void bulletin(
 		Player sender,
-		@Static(permission = "synergy.modifybulitin") String server,
+		@Static(permission = "synergy.modifybulletin") String server,
 		@Static String add,
 		String message
 	) {
-		Synergy.getBulitin().add(message);
-		Message.send(sender, "§aAdded new bulitin message at index " + (Synergy.getBulitin().size() - 1) + ".");
+		Synergy.getBulletin().add(message);
+		Message.send(sender, "§aAdded new bulletin message at index " + (Synergy.getBulletin().size() - 1) + ".");
 	}
 
-	@Root("bulitin")
-	public void bulitinClear(
+	@Root("bulletin")
+	public void bulletinClear(
 		Player sender,
-		@Static(permission = "synergy.modifybulitin") String server,
+		@Static(permission = "synergy.modifybulletin") String server,
 		@Static String clear
 	) {
-		Synergy.getBulitin().clear();
-		Message.send(sender, "§aCleared server bulitin.");
+		Synergy.getBulletin().clear();
+		Message.send(sender, "§aCleared server bulletin.");
 	}
 
-	@Root("bulitin")
-	public void bulitinRemove(
+	@Root("bulletin")
+	public void bulletinRemove(
 		Player sender,
-		@Static(permission = "synergy.modifybulitin") String server,
+		@Static(permission = "synergy.modifybulletin") String server,
 		@Static String remove,
 		@Range(minimum = 0, maximum = Integer.MAX_VALUE) int index
 	) {
-		if (index > (Synergy.getBulitin().size() - 1))
+		if (index > (Synergy.getBulletin().size() - 1))
 		{
-			Message.send(sender, "§cBulitin index out of bounds.");
+			Message.send(sender, "§cBulletin index out of bounds.");
 			return;
 		}
 
-		Synergy.getBulitin().remove(index);
-		Message.send(sender, "§aRemoved index " + index + " from server bulitin.");
+		Synergy.getBulletin().remove(index);
+		Message.send(sender, "§aRemoved index " + index + " from server bulletin.");
 	}
 
-	@Root("bulitin")
-	public void bulitinTownMute(
+	@Root("bulletin")
+	public void bulletinTownMute(
 		Player player,
 		@Static String town,
 		@Static String mute
 	) {
 	}
 
-	@Root("bulitin")
-	public void bulitinTownAdd(
+	@Root("bulletin")
+	public void bulletinTownAdd(
 		Player sender,
 		@Static String town,
 		@Static String add,
@@ -325,8 +325,8 @@ public class SynergyCommand extends TidalCommand
 		// TODO
 	}
 
-	@Root("bulitin")
-	public void bulitinTownClear(
+	@Root("bulletin")
+	public void bulletinTownClear(
 		Player sender,
 		@Static String town,
 		@Static String clear
@@ -334,8 +334,8 @@ public class SynergyCommand extends TidalCommand
 		// TODO
 	}
 
-	@Root("bulitin")
-	public void bulitinTownRemove(
+	@Root("bulletin")
+	public void bulletinTownRemove(
 		Player sender,
 		@Static String town,
 		@Static String remove,
