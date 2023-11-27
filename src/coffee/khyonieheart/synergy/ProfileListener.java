@@ -15,7 +15,6 @@ import coffee.khyonieheart.hyacinth.Gradient.GradientGroup;
 import coffee.khyonieheart.hyacinth.Logger;
 import coffee.khyonieheart.hyacinth.Message;
 import coffee.khyonieheart.synergy.profile.PlayerProfile;
-import coffee.khyonieheart.synergy.tablist.TabListManager;
 
 public class ProfileListener implements Listener
 {
@@ -164,7 +163,7 @@ public class ProfileListener implements Listener
 
 		profile.incrementTimesJoined();
 		event.getPlayer().setAllowFlight(true);
-		TabListManager.update(event.getPlayer());
+		Synergy.getTabListManager().update(event.getPlayer());
 	}
 
 	@EventHandler

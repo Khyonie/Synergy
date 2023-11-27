@@ -14,7 +14,6 @@ import coffee.khyonieheart.synergy.Filter;
 import coffee.khyonieheart.synergy.Synergy;
 import coffee.khyonieheart.synergy.profile.PlayerProfile;
 import coffee.khyonieheart.synergy.profile.Pronouns;
-import coffee.khyonieheart.synergy.tablist.TabListManager;
 import coffee.khyonieheart.tidal.ArgCount;
 import coffee.khyonieheart.tidal.TidalCommand;
 import coffee.khyonieheart.tidal.structure.Protected;
@@ -25,7 +24,7 @@ public class ProfileCommand extends TidalCommand
 {
 	public ProfileCommand() 
 	{
-		super("profile", "Synergy profile command.", "/profile", null);
+		super("profile", "Synergy profile command.", "/profile", null, "pro");
 	}
 
 	private static Matcher specialCharacterMatcher = Pattern.compile("\\W+").matcher(""); 
@@ -67,7 +66,7 @@ public class ProfileCommand extends TidalCommand
 
 		Synergy.getProfileManager().getProfile(player).setNickName(name);
 		player.spigot().sendMessage(new Gradient("#55FF55", "#FFFFFF").createComponents("Your nickname has been updated!"));
-		TabListManager.update(player);
+		Synergy.getTabListManager().update(player);
 	}
 
 	@Root("nickname")
@@ -82,7 +81,7 @@ public class ProfileCommand extends TidalCommand
 		}
 		Synergy.getProfileManager().getProfile(player).removeNickname();
 		player.spigot().sendMessage(new Gradient("#55FF55", "#FFFFFF").createComponents("Your nickname has been cleared."));
-		TabListManager.update(player);
+		Synergy.getTabListManager().update(player);
 	}
 
 	@Root("nickname")
@@ -118,7 +117,7 @@ public class ProfileCommand extends TidalCommand
 				continue;
 			}
 
-			TabListManager.update(target.getPlayer());
+			Synergy.getTabListManager().update(target.getPlayer());
 		}
 		Message.send(player, "§aOperation complete.");
 	}
@@ -138,7 +137,7 @@ public class ProfileCommand extends TidalCommand
 
 		profile.setPronouns(pronouns);
 		player.spigot().sendMessage(new Gradient("#55FF55", "#FFFFFF").createComponents("Your pronouns have been updated!"));
-		TabListManager.update(player);
+		Synergy.getTabListManager().update(player);
 	}
 
 	@Override

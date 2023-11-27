@@ -1,5 +1,8 @@
 package coffee.khyonieheart.synergy.profile;
 
+import coffee.khyonieheart.synergy.api.DeriveParser;
+
+@DeriveParser
 public enum Pronouns
 {
 	MASCULINE("Him", "His", "His", "Himself"),

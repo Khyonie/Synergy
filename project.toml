@@ -7,5 +7,5 @@ libraries = ["lib/"]
 [task.main]
 source = "src/"
 output = ["~/Servers/Minecraft/1.20.1/Hyacinth/modules/Synergy.jar"]
-input = ["mod.yml"]
+input = ["mod.yml", "loader.yml"]
 arguments = "-parameters"

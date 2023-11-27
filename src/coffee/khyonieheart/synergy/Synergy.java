@@ -6,15 +6,22 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.entity.Player;
+
 import com.google.gson.reflect.TypeToken;
 
 import coffee.khyonieheart.hyacinth.module.HyacinthModule;
 import coffee.khyonieheart.hyacinth.util.Folders;
 import coffee.khyonieheart.hyacinth.util.JsonUtils;
+import coffee.khyonieheart.synergy.mechanics.party.PartyManager;
+import coffee.khyonieheart.synergy.profile.PlayerProfile;
+import coffee.khyonieheart.synergy.tablist.TabListManager;
 
 public class Synergy implements HyacinthModule
 {
 	private static ProfileManager profileManager = new ProfileManager();
+	private static TabListManager tablistManager = new TabListManager();
+	private static PartyManager partyManager = new PartyManager();
 	private static List<String> bulletin = new ArrayList<>();
 	private static Synergy instance;
 
@@ -50,6 +57,13 @@ public class Synergy implements HyacinthModule
 		JsonUtils.toFile("SynergyData/bulletin.json", bulletin);
 	}
 
+	public static String getName(
+		Player player
+	) {
+		PlayerProfile profile = profileManager.getProfile(player);
+		return profile.hasNickName() ? profile.getNickName() : player.getDisplayName();
+	}
+
 	public static List<String> getBulletin()
 	{
 		return bulletin;
@@ -58,6 +72,16 @@ public class Synergy implements HyacinthModule
 	public static ProfileManager getProfileManager()
 	{
 		return profileManager;
+	}
+
+	public static TabListManager getTabListManager()
+	{
+		return tablistManager;
+	}
+
+	public static PartyManager getPartyManager()
+	{
+		return partyManager;
 	}
 
 	public static HyacinthModule getInstance()

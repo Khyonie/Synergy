@@ -4,12 +4,14 @@ import java.util.List;
 
 import org.bukkit.command.CommandSender;
 
+import coffee.khyonieheart.hyacinth.module.marker.PreventAutoLoad;
 import coffee.khyonieheart.hyacinth.util.Arrays;
 import coffee.khyonieheart.synergy.profile.Pronouns;
 import coffee.khyonieheart.tidal.TypeParser;
 import coffee.khyonieheart.tidal.error.CommandError;
 import coffee.khyonieheart.tidal.structure.branch.Branch;
 
+@PreventAutoLoad
 public class PronounParser extends TypeParser<Pronouns>
 {
 	private static List<String> options;
@@ -18,7 +20,7 @@ public class PronounParser extends TypeParser<Pronouns>
 		super(Pronouns.class);
 		options = Arrays.toArrayList(Pronouns.values())
 			.stream()
-			.map(p -> p.name())
+			.map(p -> p.name().toLowerCase())
 			.toList();
 	}
 
@@ -49,7 +51,7 @@ public class PronounParser extends TypeParser<Pronouns>
 
 			return null;
 		} catch (IllegalArgumentException e) {
-			return new CommandError("Unknown pronoun set, if your preferred pronouns aren't represented, please contact Khyonie", argument, index);
+			return new CommandError("Unknown pronoun set (if your preferred pronouns aren't represented, please contact Khyonie)", argument, index);
 		}
 	}
 

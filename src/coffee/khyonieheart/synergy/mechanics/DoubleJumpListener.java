@@ -25,6 +25,7 @@ public class DoubleJumpListener implements Listener
 		}
 	}
 
+	@SuppressWarnings("deprecation") // It's fine. I don't really care if the client spoofs being on the ground
 	@EventHandler
 	public void onPlayerMove(
 		PlayerMoveEvent event

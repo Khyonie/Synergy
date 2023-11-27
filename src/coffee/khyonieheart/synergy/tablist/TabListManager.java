@@ -8,11 +8,18 @@ import coffee.khyonieheart.synergy.profile.Pronouns;
 
 public class TabListManager
 {
-	public static void update(
+	public void update(
 		Player player
 	) {
 		PlayerProfile profile = Synergy.getProfileManager().getProfile(player);
 		Pronouns pronouns = profile.getPronouns();
-		player.setPlayerListName((profile.hasNickName() ? profile.getNickName() : player.getDisplayName()) + (pronouns == Pronouns.ASK_ME ? "" : " §7(" + pronouns.getSingular() + "/" + pronouns.getPosessive() + "/" + pronouns.getPluralPossesive() + ")") + "§r");
+
+		char color = 'f';
+		if (Synergy.getPartyManager().isInParty(player))
+		{
+			
+		}
+
+		player.setPlayerListName(Synergy.getName(player) + (pronouns == Pronouns.ASK_ME ? "" : " §7(" + pronouns.getSingular() + "/" + pronouns.getPosessive() + "/" + pronouns.getPluralPossesive() + ")") + "§r");
 	}
 }

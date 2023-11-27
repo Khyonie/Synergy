@@ -10,6 +10,7 @@ import com.google.gson.annotations.Expose;
 
 import coffee.khyonieheart.hyacinth.util.marker.Nullable;
 import coffee.khyonieheart.synergy.api.Required;
+import coffee.khyonieheart.synergy.mechanics.party.PartyBonus;
 
 public class PlayerProfile
 {
@@ -42,6 +43,9 @@ public class PlayerProfile
 	@Required
 	@Expose
 	private int localChatRadius = 50;
+	@Required
+	@Expose
+	private PartyBonus partyBonus = PartyBonus.ATTACK_DAMAGE;
 
 	public PlayerProfile(
 		OfflinePlayer player
@@ -150,5 +154,16 @@ public class PlayerProfile
 	public String getTown()
 	{
 		return this.homeTown;
+	}
+
+	public PartyBonus getPartyBonus()
+	{
+		return this.partyBonus;
+	}
+
+	public void setPartyBonus(
+		PartyBonus partyBonus
+	) {
+		this.partyBonus = partyBonus;
 	}
 }
