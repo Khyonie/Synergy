@@ -6,6 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+import coffee.khyonieheart.hyacinth.Gradient;
 import coffee.khyonieheart.synergy.profile.PlayerProfile;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -26,7 +27,7 @@ public class ChatListener implements Listener
 
 		switch (profile.getChatChannel())
 		{
-			case "global" -> {
+			case GLOBAL -> {
 				ComponentBuilder builder = new ComponentBuilder();
 
 				if (profile.getTown() != null)
@@ -50,23 +51,29 @@ public class ChatListener implements Listener
 
 				for (Player p : Bukkit.getOnlinePlayers())
 				{
-					if (Synergy.getProfileManager().getProfile(p).getChatChannel().equals("global"))
+					if (Synergy.getProfileManager().getProfile(p).getChatChannel() == ChatChannel.GLOBAL)
 					{
 						p.spigot().sendMessage(components);
 					}
 				}
 			}
-			case "local" -> {
+			case LOCAL -> {
 				for (Player p : event.getPlayer().getWorld().getPlayers())
 				{
 					if (p.getLocation().distanceSquared(event.getPlayer().getLocation()) <= (profile.getChatRadius() * profile.getChatRadius()))
 					{
-						p.sendMessage("§9(Local) <" + (profile.hasNickName() ? profile.getNickName() : event.getPlayer().getDisplayName()) + "> " + event.getMessage());
+						p.spigot().sendMessage(new Gradient("#55FF55", "#FFFFFF").createComponents("(Local) <" + Synergy.getName(event.getPlayer()) + "> " + event.getMessage()));
 					}
 				}
 			}
-			case "town" -> {
+			case TOWN -> {
 				// TODO This
+			}
+			case PARTY -> {
+				for (Player p : Synergy.getPartyManager().getParty(event.getPlayer()).getMembers())
+				{
+					p.spigot().sendMessage(new Gradient("#55FFFF", "#FFFFFF").createComponents("(Party) <" + Synergy.getName(event.getPlayer()) + "> " + event.getMessage()));
+				}
 			}
 		}
 	}

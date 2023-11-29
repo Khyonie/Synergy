@@ -9,6 +9,7 @@ import org.bukkit.OfflinePlayer;
 import com.google.gson.annotations.Expose;
 
 import coffee.khyonieheart.hyacinth.util.marker.Nullable;
+import coffee.khyonieheart.synergy.ChatChannel;
 import coffee.khyonieheart.synergy.api.Required;
 import coffee.khyonieheart.synergy.mechanics.party.PartyBonus;
 
@@ -39,7 +40,7 @@ public class PlayerProfile
 	private boolean mutedTownBulletin = false;
 	@Required
 	@Expose
-	private String chatChannel = "global";
+	private ChatChannel chatChannel = ChatChannel.GLOBAL;
 	@Required
 	@Expose
 	private int localChatRadius = 50;
@@ -117,13 +118,13 @@ public class PlayerProfile
 		this.mutedServerBulletin = state;
 	}
 
-	public String getChatChannel()
+	public ChatChannel getChatChannel()
 	{
 		return this.chatChannel;
 	}
 
 	public void setChatChannel(
-		String channel
+		ChatChannel channel
 	) {
 		this.chatChannel = channel;
 	}

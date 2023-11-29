@@ -20,7 +20,7 @@ public class DoubleJumpListener implements Listener
 
 		if (event.isFlying())
 		{
-			event.getPlayer().setVelocity(event.getPlayer().getVelocity().setY(1));
+			event.getPlayer().setVelocity(event.getPlayer().getVelocity().multiply(1.05).setY(1));
 			event.getPlayer().setAllowFlight(false);
 		}
 	}

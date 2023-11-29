@@ -11,6 +11,7 @@ import coffee.khyonieheart.hyacinth.Gradient.GradientGroup;
 import coffee.khyonieheart.hyacinth.Message;
 import coffee.khyonieheart.hyacinth.module.HyacinthModule;
 import coffee.khyonieheart.hyacinth.util.marker.Range;
+import coffee.khyonieheart.synergy.ChatChannel;
 import coffee.khyonieheart.synergy.ProfileListener;
 import coffee.khyonieheart.synergy.Synergy;
 import coffee.khyonieheart.synergy.profile.PlayerProfile;
@@ -53,51 +54,29 @@ public class SynergyCommand extends TidalCommand
 	}
 
 	@Root("channel")
-	public void channelLocal(
+	public void channelSwitch(
 		Player player,
-		@Static String local
+		ChatChannel channel
 	) {
 		PlayerProfile profile = Synergy.getProfileManager().getProfile(player);
 
-		if (profile.getChatChannel().equals("local"))
+		if (profile.getChatChannel() == channel)
 		{
-			player.spigot().sendMessage(Gradient.createComponents(new GradientGroup("[Synergy] ", "#005555", "#00FFFF"), new GradientGroup("Current channel is already local. No change has been made.", "#FFAA00", "#FFFFFF")));
+			player.spigot().sendMessage(Gradient.createComponents(new GradientGroup("[Synergy] ", "#005555", "#00FFFF"), new GradientGroup("Current channel is already " + channel.name().toLowerCase() + ". No change has been made.", "#FFAA00", "#FFFFFF")));
 			return;
 		}
 
-		player.spigot().sendMessage(Gradient.createComponents(new GradientGroup("[Synergy] ", "#005555", "#00FFFF"), new GradientGroup("Moved to local channel.", "#FFAA00", "#FFFFFF")));
-	}
-
-	@Root("channel")
-	public void channelGlobal(
-		Player player,
-		@Static String global
-	) {
-		PlayerProfile profile = Synergy.getProfileManager().getProfile(player);
-
-		if (profile.getChatChannel().equals("local"))
+		if (channel == ChatChannel.PARTY)
 		{
-			player.spigot().sendMessage(Gradient.createComponents(new GradientGroup("[Synergy] ", "#005555", "#00FFFF"), new GradientGroup("Current channel is already global. No change has been made.", "#FFAA00", "#FFFFFF")));
-			return;
+			if (!Synergy.getPartyManager().isInParty(player))
+			{
+				player.spigot().sendMessage(new Gradient("#AAAAAA", "#FFFFFF").createComponents("You must be in a party to use the party channel."));
+				return;
+			}
 		}
 
-		player.spigot().sendMessage(Gradient.createComponents(new GradientGroup("[Synergy] ", "#005555", "#00FFFF"), new GradientGroup("Moved to global channel.", "#FFAA00", "#FFFFFF")));
-	}
-
-	@Root("channel")
-	public void channelTown(
-		Player player,
-		@Static String town
-	) {
-		PlayerProfile profile = Synergy.getProfileManager().getProfile(player);
-
-		if (profile.getChatChannel().equals("town"))
-		{
-			player.spigot().sendMessage(Gradient.createComponents(new GradientGroup("[Synergy] ", "#005555", "#00FFFF"), new GradientGroup("Current channel is already town. No change has been made.", "#FFAA00", "#FFFFFF")));
-			return;
-		}
-
-		player.spigot().sendMessage(Gradient.createComponents(new GradientGroup("[Synergy] ", "#005555", "#00FFFF"), new GradientGroup("Moved to town channel.", "#FFAA00", "#FFFFFF")));
+		player.spigot().sendMessage(Gradient.createComponents(new GradientGroup("[Synergy] ", "#005555", "#00FFFF"), new GradientGroup("Moved to " + channel.name().toLowerCase() + " channel.", "#FFAA00", "#FFFFFF")));
+		profile.setChatChannel(channel);
 	}
 
 	// Mail commands
