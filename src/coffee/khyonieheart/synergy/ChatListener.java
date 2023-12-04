@@ -25,7 +25,48 @@ public class ChatListener implements Listener
 
 		PlayerProfile profile = Synergy.getProfileManager().getProfile(event.getPlayer());
 
-		switch (profile.getChatChannel())
+		ChatChannel channel = profile.getChatChannel();
+		if (event.getMessage().length() > 3)
+		{
+			boolean illegal = false;
+			channel = switch (event.getMessage().substring(0, 2).toLowerCase())
+			{
+				case "!g" -> {
+					event.setMessage(event.getMessage().substring(3));
+					yield ChatChannel.GLOBAL;
+				}
+				case "!l" -> {
+					event.setMessage(event.getMessage().substring(3));
+					yield ChatChannel.LOCAL;
+				}
+				case "!t" -> {
+					if (profile.getTown() == null)
+					{
+						event.getPlayer().spigot().sendMessage(new Gradient("#AAAAAA", "#FFFFFF").createComponents("You must belong to a town to use the town channel."));
+						illegal = true;
+					}
+					event.setMessage(event.getMessage().substring(3));
+					yield ChatChannel.TOWN;
+				}
+				case "!p" -> {
+					if (!Synergy.getPartyManager().isInParty(event.getPlayer()))
+					{
+						event.getPlayer().spigot().sendMessage(new Gradient("#AAAAAA", "#FFFFFF").createComponents("You must be in a party to use the party channel."));
+						illegal = true;
+					}
+					event.setMessage(event.getMessage().substring(3));
+					yield ChatChannel.PARTY;
+				}
+				default -> profile.getChatChannel();
+			};
+
+			if (illegal)
+			{
+				return;
+			}
+		}
+
+		switch (channel)
 		{
 			case GLOBAL -> {
 				ComponentBuilder builder = new ComponentBuilder();
@@ -51,10 +92,11 @@ public class ChatListener implements Listener
 
 				for (Player p : Bukkit.getOnlinePlayers())
 				{
-					if (Synergy.getProfileManager().getProfile(p).getChatChannel() == ChatChannel.GLOBAL)
-					{
-						p.spigot().sendMessage(components);
-					}
+					p.spigot().sendMessage(components);
+					//if (Synergy.getProfileManager().getProfile(p).getChatChannel() == ChatChannel.GLOBAL)
+					//{
+					//	p.spigot().sendMessage(components);
+					//}
 				}
 			}
 			case LOCAL -> {

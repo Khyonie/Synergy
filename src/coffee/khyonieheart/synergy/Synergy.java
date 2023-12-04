@@ -6,10 +6,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import com.google.gson.reflect.TypeToken;
 
+import coffee.khyonieheart.hyacinth.Hyacinth;
 import coffee.khyonieheart.hyacinth.module.HyacinthModule;
 import coffee.khyonieheart.hyacinth.util.Folders;
 import coffee.khyonieheart.hyacinth.util.JsonUtils;
@@ -32,6 +34,12 @@ public class Synergy implements HyacinthModule
 
 		Folders.ensureFolder("SynergyData");
 		Folders.ensureFolders("SynergyData", "profiles", "towns");
+
+		// TPS updater
+		
+		Bukkit.getServer().getScheduler().runTaskTimer(Hyacinth.getInstance(), () -> {
+
+		}, 20l, 20l);
 
 		File bulletinFile = new File("SynergyData/bulletin.json");	
 		if (!bulletinFile.exists())

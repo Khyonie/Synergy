@@ -75,6 +75,14 @@ public class SynergyCommand extends TidalCommand
 			}
 		}
 
+		if (channel == ChatChannel.TOWN)
+		{
+			if (Synergy.getProfileManager().getProfile(player).getTown() == null)
+			{
+				player.spigot().sendMessage(new Gradient("#AAAAAA", "#FFFFFF").createComponents("You must belong to a town to use the town channel."));
+			}
+		}
+
 		player.spigot().sendMessage(Gradient.createComponents(new GradientGroup("[Synergy] ", "#005555", "#00FFFF"), new GradientGroup("Moved to " + channel.name().toLowerCase() + " channel.", "#FFAA00", "#FFFFFF")));
 		profile.setChatChannel(channel);
 	}

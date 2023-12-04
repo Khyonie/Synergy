@@ -37,13 +37,14 @@ public class ProfileListener implements Listener
 
 
 		§lMechanics
+		§8§o(In no particular order)
 		""",
 		"""
 		-< Double-Jump >-
 
 		Jumping midair (similar to flying in creative mode) will initiate a second, higher jump. 
 
-		§c⚠ For the purposes of this mechanic, fall damage has been disabled. 
+		§9ⓘ For the purposes of this mechanic, fall damage has been disabled. 
 		""",
 		"""
 		-< Death Chests >-
@@ -81,6 +82,22 @@ public class ProfileListener implements Listener
 		  │   │
 		§6▲ → Leather
 		§9● → String
+		""",
+		"""
+		-< Chat Channels 1 >-
+
+		Switch the current channel with:
+		§8§n/synergy channel <global | local | town | party>§r
+
+		§9ⓘ§o Quickly send a message in a channel by prefixing your message with "!g", "!l", "!t" or "!p".
+		""",
+		"""
+		-< Chat Channels 2 >-
+
+		§8Global§r → Send to all players.
+		§2Local §r→ Send to nearby players.
+		§6Town §r→ Send to town members. §8(⚠ §oMust belong to a town.§8)
+		§1Party §r→ Send to party members. §8(⚠ §oMust be in a party.§8)
 		""",
 		//
 		//
