@@ -14,6 +14,7 @@ import coffee.khyonieheart.hyacinth.util.marker.Range;
 import coffee.khyonieheart.synergy.ChatChannel;
 import coffee.khyonieheart.synergy.ProfileListener;
 import coffee.khyonieheart.synergy.Synergy;
+import coffee.khyonieheart.synergy.api.BooleanSetting;
 import coffee.khyonieheart.synergy.profile.PlayerProfile;
 import coffee.khyonieheart.tidal.ArgCount;
 import coffee.khyonieheart.tidal.TidalCommand;
@@ -39,6 +40,26 @@ public class SynergyCommand extends TidalCommand
 		Player player
 	) {
 		player.getInventory().addItem(ProfileListener.createSynergyTutorialBook(player));
+	}
+
+	@Root
+	public void djump(
+		Player player,
+		BooleanSetting setting
+	) {
+		PlayerProfile profile = Synergy.getProfileManager().getProfile(player);
+
+		if (profile.getEnableDoubleJump() == setting.getValue())
+		{
+			player.spigot().sendMessage(new Gradient("#AAAAAA", "#FFFFFF").createComponents("No change has been made."));
+			return;
+		}
+
+		profile.setEnableDoubleJump(setting.getValue());
+		player.spigot().sendMessage(new Gradient("#55FF55", "#FFFFFF").createComponents("Double jump setting updated."));
+
+		player.setAllowFlight(false);
+		player.setFlying(false);
 	}
 
 	// Chat channel commands

@@ -5,6 +5,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 
+import coffee.khyonieheart.synergy.Synergy;
+
 public class DoubleJumpListener implements Listener
 {
 	@EventHandler
@@ -14,6 +16,11 @@ public class DoubleJumpListener implements Listener
 		event.setCancelled(true);
 
 		if (!event.getPlayer().getAllowFlight())
+		{
+			return;
+		}
+
+		if (!Synergy.getProfileManager().getProfile(event.getPlayer()).getEnableDoubleJump())
 		{
 			return;
 		}
@@ -30,6 +37,10 @@ public class DoubleJumpListener implements Listener
 	public void onPlayerMove(
 		PlayerMoveEvent event
 	) {
+		if (!Synergy.getProfileManager().getProfile(event.getPlayer()).getEnableDoubleJump())
+		{
+			return;
+		}
 		if (event.getPlayer().isOnGround())
 		{
 			event.getPlayer().setAllowFlight(true);

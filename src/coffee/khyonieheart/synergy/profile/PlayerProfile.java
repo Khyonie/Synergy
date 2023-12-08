@@ -47,6 +47,8 @@ public class PlayerProfile
 	@Required
 	@Expose
 	private PartyBonus partyBonus = PartyBonus.ATTACK_DAMAGE;
+	@Required
+	@Expose private boolean enableDoubleJump = true;
 
 	public PlayerProfile(
 		OfflinePlayer player
@@ -166,5 +168,16 @@ public class PlayerProfile
 		PartyBonus partyBonus
 	) {
 		this.partyBonus = partyBonus;
+	}
+
+	public void setEnableDoubleJump(
+		boolean setting
+	) {
+		this.enableDoubleJump = setting;
+	}
+
+	public boolean getEnableDoubleJump()
+	{
+		return this.enableDoubleJump;
 	}
 }

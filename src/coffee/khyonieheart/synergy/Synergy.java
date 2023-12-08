@@ -37,9 +37,7 @@ public class Synergy implements HyacinthModule
 
 		// TPS updater
 		
-		Bukkit.getServer().getScheduler().runTaskTimer(Hyacinth.getInstance(), () -> {
-
-		}, 20l, 20l);
+		TpsMonitor.startMonitoring();
 
 		File bulletinFile = new File("SynergyData/bulletin.json");	
 		if (!bulletinFile.exists())
