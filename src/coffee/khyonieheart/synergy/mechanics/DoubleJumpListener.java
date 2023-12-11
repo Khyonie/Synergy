@@ -1,9 +1,11 @@
 package coffee.khyonieheart.synergy.mechanics;
 
+import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
+import org.bukkit.inventory.EquipmentSlot;
 
 import coffee.khyonieheart.synergy.Synergy;
 
@@ -13,14 +15,22 @@ public class DoubleJumpListener implements Listener
 	public void onPlayerFly(
 		PlayerToggleFlightEvent event
 	) {
-		event.setCancelled(true);
-
-		if (!event.getPlayer().getAllowFlight())
+		if (!Synergy.getProfileManager().getProfile(event.getPlayer()).getEnableDoubleJump())
 		{
 			return;
 		}
 
-		if (!Synergy.getProfileManager().getProfile(event.getPlayer()).getEnableDoubleJump())
+		if (event.getPlayer().getInventory().getItem(EquipmentSlot.CHEST) != null)
+		{
+			if (event.getPlayer().getInventory().getItem(EquipmentSlot.CHEST).getType() == Material.ELYTRA)
+			{
+				return;
+			}
+		}
+
+		event.setCancelled(true);
+
+		if (!event.getPlayer().getAllowFlight())
 		{
 			return;
 		}
@@ -41,6 +51,15 @@ public class DoubleJumpListener implements Listener
 		{
 			return;
 		}
+
+		if (event.getPlayer().getInventory().getItem(EquipmentSlot.CHEST) != null)
+		{
+			if (event.getPlayer().getInventory().getItem(EquipmentSlot.CHEST).getType() == Material.ELYTRA)
+			{
+				return;
+			}
+		}
+
 		if (event.getPlayer().isOnGround())
 		{
 			event.getPlayer().setAllowFlight(true);

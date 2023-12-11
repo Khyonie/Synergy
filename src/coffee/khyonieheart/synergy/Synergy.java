@@ -6,18 +6,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import com.google.gson.reflect.TypeToken;
 
-import coffee.khyonieheart.hyacinth.Hyacinth;
 import coffee.khyonieheart.hyacinth.module.HyacinthModule;
 import coffee.khyonieheart.hyacinth.util.Folders;
 import coffee.khyonieheart.hyacinth.util.JsonUtils;
 import coffee.khyonieheart.synergy.mechanics.party.PartyManager;
 import coffee.khyonieheart.synergy.profile.PlayerProfile;
+import coffee.khyonieheart.synergy.profile.ProfileManager;
 import coffee.khyonieheart.synergy.tablist.TabListManager;
+import coffee.khyonieheart.synergy.tablist.TpsMonitor;
 
 public class Synergy implements HyacinthModule
 {
@@ -36,7 +36,6 @@ public class Synergy implements HyacinthModule
 		Folders.ensureFolders("SynergyData", "profiles", "towns");
 
 		// TPS updater
-		
 		TpsMonitor.startMonitoring();
 
 		File bulletinFile = new File("SynergyData/bulletin.json");	

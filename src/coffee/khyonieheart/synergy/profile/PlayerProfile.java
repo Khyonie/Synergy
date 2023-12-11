@@ -9,46 +9,27 @@ import org.bukkit.OfflinePlayer;
 import com.google.gson.annotations.Expose;
 
 import coffee.khyonieheart.hyacinth.util.marker.Nullable;
-import coffee.khyonieheart.synergy.ChatChannel;
 import coffee.khyonieheart.synergy.api.Required;
+import coffee.khyonieheart.synergy.chat.ChatChannel;
 import coffee.khyonieheart.synergy.mechanics.party.PartyBonus;
+import coffee.khyonieheart.synergy.mechanics.party.PartyColor;
 
 public class PlayerProfile
 {
-	@Expose
-	private String nickname;
-	@Expose
-	private String username;
-	@Required
-	@Expose
-	private Pronouns pronouns = Pronouns.ASK_ME;
-	@Expose
-	private String homeTown;
-	@Required
-	@Expose
-	private int money = 100;
-	@Required
-	@Expose
-	private List<String> mail = new ArrayList<>();
-	@Expose
-	private int timesJoined = 0;
-	@Required
-	@Expose
-	private boolean mutedServerBulletin = false;
-	@Required
-	@Expose
-	private boolean mutedTownBulletin = false;
-	@Required
-	@Expose
-	private ChatChannel chatChannel = ChatChannel.GLOBAL;
-	@Required
-	@Expose
-	private int localChatRadius = 50;
-	@Required
-	@Expose
-	private PartyBonus partyBonus = PartyBonus.ATTACK_DAMAGE;
-	@Required
-	@Expose private boolean enableDoubleJump = true;
+	@Expose private String nickname;
+	@Expose private String username; 
+	@Required @Expose private Pronouns pronouns = Pronouns.ASK_ME;
+	@Expose private String homeTown;
+	@Required @Expose private int money = 100;
+	@Required @Expose private List<String> mail = new ArrayList<>();
+	@Expose private int timesJoined = 0;
+	@Required @Expose private boolean mutedServerBulletin = false;
+	@Required @Expose private boolean mutedTownBulletin = false;
+	@Required @Expose private ChatChannel chatChannel = ChatChannel.GLOBAL;
+	@Required @Expose private int localChatRadius = 50;
+	@Required @Expose private PartyBonus partyBonus = PartyBonus.ATTACK_DAMAGE;
+	@Required @Expose private boolean enableDoubleJump = true;
+	@Required @Expose private PartyColor preferredPartyColor = PartyColor.AQUA;
 
 	public PlayerProfile(
 		OfflinePlayer player
@@ -179,5 +160,16 @@ public class PlayerProfile
 	public boolean getEnableDoubleJump()
 	{
 		return this.enableDoubleJump;
+	}
+
+	public PartyColor getPartyColor()
+	{
+		return this.preferredPartyColor;
+	}
+
+	public void setPartyColor(
+		PartyColor color
+	) {
+		this.preferredPartyColor = color;
 	}
 }
