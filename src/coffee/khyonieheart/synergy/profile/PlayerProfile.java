@@ -30,6 +30,7 @@ public class PlayerProfile
 	@Required @Expose private PartyBonus partyBonus = PartyBonus.ATTACK_DAMAGE;
 	@Required @Expose private boolean enableDoubleJump = true;
 	@Required @Expose private PartyColor preferredPartyColor = PartyColor.AQUA;
+	@Required @Expose private int pvpRating = 1000;
 
 	public PlayerProfile(
 		OfflinePlayer player
@@ -171,5 +172,22 @@ public class PlayerProfile
 		PartyColor color
 	) {
 		this.preferredPartyColor = color;
+	}
+
+	public int getDuelRating()
+	{
+		return this.pvpRating;
+	}
+
+	public void incrementDuelRating(
+		int delta
+	) {
+		this.pvpRating += delta;
+	}
+
+	public void decrementDuelRating(
+		int delta
+	) {
+		this.pvpRating -= delta;
 	}
 }

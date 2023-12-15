@@ -15,6 +15,7 @@ public class DoubleJumpListener implements Listener
 	public void onPlayerFly(
 		PlayerToggleFlightEvent event
 	) {
+		event.setCancelled(true);
 		if (!Synergy.getProfileManager().getProfile(event.getPlayer()).getEnableDoubleJump())
 		{
 			return;
@@ -27,8 +28,6 @@ public class DoubleJumpListener implements Listener
 				return;
 			}
 		}
-
-		event.setCancelled(true);
 
 		if (!event.getPlayer().getAllowFlight())
 		{
@@ -49,6 +48,7 @@ public class DoubleJumpListener implements Listener
 	) {
 		if (!Synergy.getProfileManager().getProfile(event.getPlayer()).getEnableDoubleJump())
 		{
+			event.getPlayer().setAllowFlight(false);
 			return;
 		}
 
@@ -56,6 +56,7 @@ public class DoubleJumpListener implements Listener
 		{
 			if (event.getPlayer().getInventory().getItem(EquipmentSlot.CHEST).getType() == Material.ELYTRA)
 			{
+				event.getPlayer().setAllowFlight(false);
 				return;
 			}
 		}
