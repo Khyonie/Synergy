@@ -1,0 +1,6 @@
+name: Synergy
+package: coffee.khyonieheart.synergy
+description: Season VII ("community") backend
+entry: coffee.khyonieheart.synergy.Synergy
+version: 1.0.0
+author: Khyonie

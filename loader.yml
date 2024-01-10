@@ -1,0 +1,8 @@
+class_shaders:
+  NORMAL:
+    - coffee.khyonieheart.synergy.api.EnumClassShader
+    - coffee.khyonieheart.synergy.api.UsableItemShader
+    - coffee.khyonieheart.synergy.api.ComplexRecipeParser
+    - coffee.khyonieheart.synergy.api.AugmentationShader
+    - coffee.khyonieheart.synergy.api.gatedevents.GatedListenerHandler
+    - coffee.khyonieheart.synergy.api.CraftingRuleShader
