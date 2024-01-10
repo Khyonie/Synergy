@@ -21,7 +21,13 @@ public class TabListManager
 			color = Synergy.getPartyManager().getParty(player).getColor().getColor();
 		}
 
-		player.setPlayerListName(color + Synergy.getName(player) + (pronouns == Pronouns.ASK_ME ? "" : " §7(" + pronouns.getSingular() + "/" + pronouns.getPosessive() + "/" + pronouns.getPluralPossesive() + ")") + "§r");
+		String afkMarker = "";
+		if (Synergy.getAfkPlayers().contains(player))
+		{
+			afkMarker = "§8(AFK) ";
+		}
+
+		player.setPlayerListName(afkMarker + color + Synergy.getName(player) + (pronouns == Pronouns.ASK_ME ? "" : " §7(" + pronouns.getSingular() + "/" + pronouns.getPosessive() + "/" + pronouns.getPluralPossesive() + ")") + "§r");
 	}
 
 	public void updateTps()

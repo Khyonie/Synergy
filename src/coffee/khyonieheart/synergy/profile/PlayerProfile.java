@@ -10,6 +10,7 @@ import com.google.gson.annotations.Expose;
 
 import coffee.khyonieheart.hyacinth.util.marker.Nullable;
 import coffee.khyonieheart.synergy.api.Required;
+import coffee.khyonieheart.synergy.api.gatedevents.GatedBranch;
 import coffee.khyonieheart.synergy.chat.ChatChannel;
 import coffee.khyonieheart.synergy.mechanics.party.PartyBonus;
 import coffee.khyonieheart.synergy.mechanics.party.PartyColor;
@@ -31,6 +32,7 @@ public class PlayerProfile
 	@Required @Expose private boolean enableDoubleJump = true;
 	@Required @Expose private PartyColor preferredPartyColor = PartyColor.AQUA;
 	@Required @Expose private int pvpRating = 1000;
+	@Required @Expose private GatedBranch branch = GatedBranch.BETA;
 
 	public PlayerProfile(
 		OfflinePlayer player
@@ -189,5 +191,16 @@ public class PlayerProfile
 		int delta
 	) {
 		this.pvpRating -= delta;
+	}
+
+	public GatedBranch getBranch()
+	{
+		return this.branch;
+	}
+
+	public void setBranch(
+		GatedBranch branch
+	) {
+		this.branch = branch;
 	}
 }

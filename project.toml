@@ -9,3 +9,9 @@ source = "src/"
 output = ["~/Servers/Minecraft/1.20.1/Hyacinth/modules/Synergy.jar"]
 input = ["mod.yml", "loader.yml"]
 arguments = "-parameters"
+
+[task.nightly]
+source = "src/"
+output = ["~/Servers/Minecraft/Season4/Hyacinth/modules/Synergy.jar"]
+input = ["mod.yml", "loader.yml"]
+arguments = "-parameters"

@@ -4,7 +4,9 @@ import java.io.File;
 
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.v1_20_R2.CraftChunk;
 import org.bukkit.entity.Player;
+import org.bukkit.util.StructureSearchResult;
 
 import coffee.khyonieheart.hyacinth.Gradient;
 import coffee.khyonieheart.hyacinth.Gradient.GradientGroup;
@@ -12,27 +14,61 @@ import coffee.khyonieheart.hyacinth.Message;
 import coffee.khyonieheart.hyacinth.module.HyacinthModule;
 import coffee.khyonieheart.hyacinth.util.marker.Range;
 import coffee.khyonieheart.synergy.Synergy;
+import coffee.khyonieheart.synergy.Updater;
+import coffee.khyonieheart.synergy.Updater.UpdateStatus;
 import coffee.khyonieheart.synergy.api.BooleanSetting;
+import coffee.khyonieheart.synergy.api.gatedevents.GatedBranch;
 import coffee.khyonieheart.synergy.chat.ChatChannel;
+import coffee.khyonieheart.synergy.parsers.StructureScanType;
 import coffee.khyonieheart.synergy.profile.PlayerProfile;
 import coffee.khyonieheart.synergy.profile.ProfileListener;
 import coffee.khyonieheart.tidal.ArgCount;
 import coffee.khyonieheart.tidal.TidalCommand;
 import coffee.khyonieheart.tidal.structure.Root;
 import coffee.khyonieheart.tidal.structure.Static;
+import net.minecraft.world.level.chunk.ChunkStatus;
+import net.minecraft.world.level.levelgen.structure.StructureBoundingBox;
 
 public class SynergyCommand extends TidalCommand
 {
 	public SynergyCommand() 
 	{
-		super("synergy", "Synergy for season VII.", "synergy", null, "syn", "s");
+		super("synergy", "Synergy for season IV.", "synergy", null, "syn", "s");
 	}
 
 	@Root(isRootExecutor = true)
 	public void synergy(
 		CommandSender sender
 	) {
-		Message.send(sender, "Welcome to Synergy, SLLPA's season VII custom module. As always, any bugs can be directed to khyonie on Discord.");
+		new Thread(() -> {
+			sender.spigot().sendMessage(Gradient.createComponents(new GradientGroup("[Synergy] ", "#005555", "#00FFFF"), new GradientGroup("Synergy version: #" + Updater.getSynergyHash().substring(0, 8), "#FFAA00", "#FFFFFF")));
+		}).start();
+	}
+
+	@Root(permission = "synergy.admin")
+	public void update(
+		CommandSender sender
+	) {
+		sender.spigot().sendMessage(new Gradient("#00FFFF", "#FFFFFF").createComponents("Checking for update..."));
+		Runnable updateThread = () -> {
+			UpdateStatus status = Updater.update();
+			switch (status)
+			{
+				case SUCCESS_UPDATE -> sender.spigot().sendMessage(new Gradient("#55FF55", "#FFFFFF").createComponents("An update is available!"));
+				case SUCCESS_NO_UPDATE -> sender.spigot().sendMessage(new Gradient("#AAAAAA", "#FFFFFF").createComponents("No update is available."));
+				case BUILD_FAIL -> sender.spigot().sendMessage(new Gradient("#FF5555", "#FFFFFF").createComponents("Build failed."));
+			}
+		};
+
+		new Thread(updateThread).start();
+	}
+
+	@Root(permission = "synergy.admin")
+	public void schedulerestart(
+		CommandSender sender
+	) {
+		Updater.scheduleShutdown();
+		sender.spigot().sendMessage(Gradient.createComponents(new GradientGroup("[Synergy] ", "#005555", "#00FFFF"), new GradientGroup("Shutdown has been scheduled.", "#FFAA00", "#FFFFFF")));
 	}
 
 	@Root
@@ -40,6 +76,44 @@ public class SynergyCommand extends TidalCommand
 		Player player
 	) {
 		player.getInventory().addItem(ProfileListener.createSynergyTutorialBook(player));
+	}
+
+	@Root
+	public void scan(
+		Player player,
+		StructureScanType structure
+	) {
+		if (Synergy.getProfileManager().getProfile(player).getBranch() != GatedBranch.NIGHTLY)
+		{
+			player.spigot().sendMessage(Gradient.createComponents(new GradientGroup("[Synergy] ", "#005555", "#00FFFF"), new GradientGroup("Structure bounds scanning is a nightly feature. Switch branches to the nightly branch to use structure bounds scanning.", "#5555FF", "#FF5555")));
+			return;
+		}
+		
+		StructureSearchResult result = player.getWorld().locateNearestStructure(player.getLocation(), structure.getType(), 1, false);
+
+		if (result == null)
+		{
+			player.spigot().sendMessage(new Gradient("#AAAAAA", "#FFFFFF").createComponents("You are not standing in a(n) " + structure.name().toLowerCase() + "."));
+			return;
+		}
+
+		// Oh boy. Here we go.
+		CraftChunk objCraftChunk = (CraftChunk) player.getLocation().getWorld().getChunkAt(result.getLocation());
+		objCraftChunk.getHandle(ChunkStatus.e).g().forEach((type, start) -> {
+			StructureBoundingBox box = start.a();
+
+			int minX = box.g();
+			int maxX = box.j();
+			int minY = box.h();
+			int maxY = box.k();
+			int minZ = box.i();
+			int maxZ = box.l();
+
+			player.spigot().sendMessage(Gradient.createComponents(new GradientGroup("[Synergy] ", "#005555", "#00FFFF"), new GradientGroup("Scanned structure:", "#55FF55", "#FFFFFF")));
+			player.spigot().sendMessage(new Gradient("#AAAAAA", "#FFFFFF").createComponents("X Bounds: min " + minX + " | max " + maxX));
+			player.spigot().sendMessage(new Gradient("#AAAAAA", "#FFFFFF").createComponents("Y Bounds: min " + minY + " | max " + maxY));
+			player.spigot().sendMessage(new Gradient("#AAAAAA", "#FFFFFF").createComponents("Z Bounds: min " + minZ + " | max " + maxZ));
+		});
 	}
 
 	@Root
@@ -350,6 +424,38 @@ public class SynergyCommand extends TidalCommand
 		@Range(minimum = 0, maximum = Integer.MAX_VALUE) int index
 	) {
 		// TODO
+	}
+
+	@Root
+	public void branch(
+		Player player
+	) {
+		PlayerProfile profile = Synergy.getProfileManager().getProfile(player);
+		player.spigot().sendMessage(Gradient.createComponents(new GradientGroup("[Synergy] ", "#005555", "#00FFFF"), new GradientGroup("You are currently on the " + profile.getBranch().name().toLowerCase() + " branch.", "#FFAA00", "#FFFFFF")));
+		player.spigot().sendMessage(Gradient.createComponents(new GradientGroup("[Synergy] ", "#005555", "#00FFFF"), new GradientGroup("- Stable", "#55FF55", "#00AA00"), new GradientGroup(": Only complete features. The most stable experience.", "#AAAAAA", "#FFFFFF")));
+		player.spigot().sendMessage(Gradient.createComponents(new GradientGroup("[Synergy] ", "#005555", "#00FFFF"), new GradientGroup("- Beta", "#FFFF55", "#FFAA00"), new GradientGroup(": New features and mechanics. Some things may not work as intended.", "#AAAAAA", "#FFFFFF")));
+		player.spigot().sendMessage(Gradient.createComponents(new GradientGroup("[Synergy] ", "#005555", "#00FFFF"), 
+			new GradientGroup("- Nightly", "#FF5555", "#AA0000"), 
+			new GradientGroup(": The bleeding edge, updated daily. Changes will be debuted here with little testing. ", "#AAAAAA", "#FFFFFF"), 
+			new GradientGroup("Here be dragons!", "#5555FF", "#FF5555"))
+		);
+	}
+
+	@Root
+	public void branch(
+		Player sender,
+		GatedBranch branch
+	) {
+		PlayerProfile profile = Synergy.getProfileManager().getProfile(sender);
+
+		if (profile.getBranch() == branch)
+		{
+			sender.spigot().sendMessage(Gradient.createComponents(new GradientGroup("[Synergy] ", "#005555", "#00FFFF"), new GradientGroup("Nothing changed. You are already part of the " + branch.name().toLowerCase() + " branch.", "#AAAAAA", "#FFFFFF")));
+			return;
+		}
+
+		profile.setBranch(branch);
+		sender.spigot().sendMessage(Gradient.createComponents(new GradientGroup("[Synergy] ", "#005555", "#00FFFF"), new GradientGroup("Updated feature branch setting.", "#55FF55", "#FFFFFF")));
 	}
 
 	@Override

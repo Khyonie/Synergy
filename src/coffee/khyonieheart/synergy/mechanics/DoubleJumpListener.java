@@ -1,8 +1,11 @@
 package coffee.khyonieheart.synergy.mechanics;
 
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.inventory.EquipmentSlot;
@@ -11,6 +14,8 @@ import coffee.khyonieheart.synergy.Synergy;
 
 public class DoubleJumpListener implements Listener
 {
+	private static final double HORIZONTAL_VELOCITY_MULTIPLIER = 1.1;
+
 	@EventHandler
 	public void onPlayerFly(
 		PlayerToggleFlightEvent event
@@ -36,7 +41,7 @@ public class DoubleJumpListener implements Listener
 
 		if (event.isFlying())
 		{
-			event.getPlayer().setVelocity(event.getPlayer().getVelocity().multiply(1.05).setY(1));
+			event.getPlayer().setVelocity(event.getPlayer().getVelocity().multiply(HORIZONTAL_VELOCITY_MULTIPLIER).setY(1));
 			event.getPlayer().setAllowFlight(false);
 		}
 	}
@@ -64,6 +69,21 @@ public class DoubleJumpListener implements Listener
 		if (event.getPlayer().isOnGround())
 		{
 			event.getPlayer().setAllowFlight(true);
+		}
+	}
+
+	@EventHandler
+	public void onFallDamage(
+		EntityDamageEvent event
+	) {
+		if (!(event.getEntity() instanceof Player))
+		{
+			return;
+		}
+
+		if (event.getCause() == DamageCause.FALL)
+		{
+			event.setCancelled(true);
 		}
 	}
 }
